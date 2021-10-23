@@ -16,15 +16,13 @@ for iter = 1:num_iters
     % Hint: While debugging, it can be useful to print out the values
     %       of the cost function (computeCost) and gradient here.
     %
-    residuals = X*theta - y;
-	S = sum(residuals);
-    S1 = sum(residuals.*X(:,2));
-    theta = theta - alpha/m * [S; S1]; 
+
+    theta = theta - alpha/m * (sum((X*theta - y).*X))';
 
     % ============================================================
 
     % Save the cost J in every iteration    
-    J_history(iter) = computeCost(X(:,2), y, theta);
+    J_history(iter) = computeCost(X, y, theta);
 
 end
 

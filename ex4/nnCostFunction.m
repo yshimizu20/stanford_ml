@@ -61,6 +61,7 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+
 a1 = [ones(m,1) X]; % 5000*401
 z2 = a1 * Theta1'; % 5000*25
 a2 = [ones(m,1) sigmoid(z2)]; % 5000*26
@@ -71,21 +72,19 @@ index = zeros(m, max(y));
 idx = sub2ind(size(index), 1:m, y(:)');
 index(idx) = 1;
 
-reg = lambda/(2*m)*(sum(Theta1.^2, 'all')+sum(Theta2.^2, 'all'));
+reg = lambda/(2*m)*(sum(Theta1(:,2:end).^2, 'all')+sum(Theta2(:,2:end).^2, 'all'));
 J = sum(log(a3).*index + log(1-a3).*(1-index), 'all')/(-m) + reg;
 
-delta3 = a3 - index; % 5000*10
-delta2 = delta3*Theta2(:,2:end).*sigmoidGradient(z2); % 5000*25
-LD2_1 = delta3'*a2(:,1); % 10*1
+% -------------------------------------------------------------
+
+delta3 = a3 - index; %5000*10
+delta2 = delta3*Theta2(:,2:end).*sigmoidGradient(z2); %5000*25
 LD2_rest = delta3'*a2(:,2:end) + lambda*Theta2(:,2:end); %10*25
-LD1_1 = delta2'*a1(:,1); % 25*1
-LD1_rest = delta2'*a1(:,2:end) + lambda*Theta1(:,2:end); % 25*400
-
-
+LD2_1 = delta3'*a2(:,1);
+LD1_rest = delta2'*a1(:,2:end) + lambda*Theta1(:,2:end); %25*400
+LD1_1 = delta2'*a1(:,1);
 Theta1_grad = [LD1_1 LD1_rest]/m;
 Theta2_grad = [LD2_1 LD2_rest]/m;
-
-% -------------------------------------------------------------
 
 % =========================================================================
 

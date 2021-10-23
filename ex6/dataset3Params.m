@@ -23,26 +23,22 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
-results = eye(64, 3)
-index = 0
+results = eye(64, 3);
+index = 0;
 
-for Cs = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
-    for Sigmas = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
-        index = index + 1
-        model = svmTrain(X, y, Cs, @(x1, x2)gaussianKernel(x1, x2, Sigmas))
-        predictions = svmPredict(model, Xval)
-        prediction_error = mean(double(predictions ~=yval))
-        results(index, :) = [Cs, Sigmas, prediction_error]
+for C_s = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
+    for sigma_s = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
+        index = index + 1;
+        model = svmTrain(X, y, C_s, @(x1, x2)gaussianKernel(x1, x2, sigma_s));
+        predictions = svmPredict(model, Xval);
+        prediction_error = mean(double(predictions ~= yval));
+        results(index, :) = [C_s, sigma_s, prediction_error];
     end
 end
 
-results = sortrows(results, 3)
-C = sorted_results(1,1)
-sigma = sorted_results(1,2)
-
-
-
-
+sorted_results = sortrows(results, 3);
+C = sorted_results(1,1);
+sigma = sorted_results(1,2);
 
 % =========================================================================
 

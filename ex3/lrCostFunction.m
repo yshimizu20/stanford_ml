@@ -35,13 +35,13 @@ grad = zeros(size(theta));
 %           temp(1) = 0;   % because we don't add anything for j = 0  
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
-theta_1 = theta;
-theta_1(1) = 0;
-predictions = sigmoid(X*theta);
-J = sum(y.*log(predictions) + (1-y).*log(1-predictions))/(-m) + sum(theta_1.^2)*lambda/(2*m);
 
-grad = X'*(predictions - y)/m + lambda/m*theta_1;
+J = -sum(y.*log(sigmoid(X*theta))+(1-y).*log(1-sigmoid(X*theta)))/m + lambda/(2*m)*(theta'*theta-theta(1)^2);
 
+j0 = sum((sigmoid(X*theta)-y).*X(:,1))/m;
+grad = sum((sigmoid(X*theta)-y).*X)/m + lambda/m*theta';
+
+grad(1) = j0;
 
 % =============================================================
 

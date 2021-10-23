@@ -31,9 +31,7 @@ X = [ones(m, 1) X];
 %       
 
 predictions = X*all_theta';
-[val,p] = max(predictions, [], 2);
-
-
+[val, p] = max(predictions, [], 2);
 
 % =========================================================================
 
